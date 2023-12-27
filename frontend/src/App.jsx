@@ -1,12 +1,24 @@
-
-import './App.css'
-
+import {BrowserRouter,Routes,Route} from "react-router-dom";
+import About from "./pages/About";
+import Signin from "./pages/Signin";
+import Profile from "./pages/Profile";
+import SignOut from "./pages/SignOut";
+import Home from "./pages/Home";
 function App() {
 
   return (
-    <>
-   <h1 className="text-3xl font-bold underline">hello</h1>
-    </>
+    <BrowserRouter>
+     <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/sign-in" element={<Signin />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/sign-out" element={<SignOut />} />
+  
+      <Route path="/about" element={<About />} />
+
+
+     </Routes>
+    </BrowserRouter>
   )
 }
 
