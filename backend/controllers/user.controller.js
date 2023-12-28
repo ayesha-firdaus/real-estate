@@ -1,4 +1,4 @@
-export const test=(req,res)=>{
+exports.test=(req,res)=>{
     res.status(200).json({
         message:"Hello World!"
     })
