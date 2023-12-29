@@ -1,6 +1,6 @@
 const User=require("../models/user.model")
 const {errorHanlder}=require("../utils/error")
-exports.signup=async (req,res)=>{
+exports.signup=async (req,res,next)=>{
 const {username,email,password}=req.body;
 const newuser=new User({username,email,password});
 try{
