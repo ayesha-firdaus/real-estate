@@ -33,7 +33,7 @@ if(data.status==="failed")
 }
 setloading(false);
 setError(null);
-navigate('./sign-in')
+navigate('/sign-in')
 console.log(data);
 } catch (error) {
   setloading(false);

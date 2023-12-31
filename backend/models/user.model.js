@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const bcrypt=require("bcryptjs");
+const bcryptjs=require("bcryptjs");
 const userSchema=new mongoose.Schema({
     username:{
         type:String,
@@ -24,11 +24,11 @@ userSchema.pre('save',async function(next){
     {
         return next() ;
     }
-  this.password=await bcrypt.hash("password",12);
+  this.password=await bcryptjs.hash(this.password,12);
   next();
 })
-// userSchema.methods.validatePassword=async function(candidatePassword,userPassword){
-//     return await bcrypt.compare(candidatePassword,userPassword);
-// }
+userSchema.methods.validatePassword=async function(candidatePassword,userPassword){
+    return await bcryptjs.compare(candidatePassword,userPassword);
+}
 const User=mongoose.model("User",userSchema);
 module.exports=User;

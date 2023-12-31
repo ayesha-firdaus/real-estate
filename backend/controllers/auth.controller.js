@@ -1,6 +1,6 @@
 const User=require("../models/user.model")
-const bcryptjs=require("bcryptjs")
-const {errorHanlder}=require("../utils/error")
+const {errorHanlder}=require("../utils/error");
+const bcryptjs=require('bcryptjs')
 const jwt=require('jsonwebtoken');
 exports.signup=async (req,res,next)=>{
 const {username,email,password}=req.body;
@@ -15,15 +15,15 @@ catch(error){
 };
 exports.signin=async(req,res,next)=>{
   const {email,password}=req.body;
-  console.log(req.body)
   try{
 const validUser=await User.findOne({email});
-console.log(validUser);
-if(!validUser) return next(errorHanlder(404,'user not found'));
-const validPassword=bcryptjs.compareSync(password,validUser.password);
 
+if(!validUser) return next(errorHanlder(404,'user not found'));
+const validPassword=await validUser.validatePassword(password,validUser.password);
 console.log(validPassword)
-if(validPassword==='false') return next(errorHanlder(401,"wrong credentials"));
+
+
+if(validPassword===false) return next(errorHanlder(401,"wrong credentials"));
 const token=jwt.sign({id:validUser._id},process.env.Jwt_Secret);
 const {password:pass,...rest}=validUser._doc;
 
@@ -33,5 +33,4 @@ res.cookie("access_token",token,{httpOnly:true}).status(200).json(rest);
   catch(error){
    next(error)
   }
-
 }
