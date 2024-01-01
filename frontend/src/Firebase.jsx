@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -12,6 +13,10 @@ const firebaseConfig = {
   messagingSenderId: "409092457541",
   appId: "1:409092457541:web:02a60e066f410f8f1b4f2c"
 };
-console.log(import.meta.env.VITE_FIREBASE_API_KEY)
+// console.log(import.meta.env);
+// console.log(import.meta.env.VITE_FIREBASE_API_KEY);
+// console.log(import.meta.env.username);
+
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
