@@ -1,12 +1,15 @@
 const User = require("../models/user.model");
-const { errorHanlder } = require("../utils/error")
+const {errorHanlder} = require("../utils/error")
 const jwt=require('jsonwebtoken');
 const bcryptjs=require("bcryptjs");
 
 exports.updateUser=async(req,res,next)=>{
-  
-    if(req.user.id!==req.params.id)return next(errorHanlder(401,"you can only update your own account"));
     try{
+        console.log("user",req.user)
+        console.log("paramater",req.params.id)
+    if(req.user.id!==req.params.id)
+    return next(errorHanlder(401,"you can only update your own account"));
+
         if(req.body.password)
         {
             req.body.password=bcryptjs.hashSync(req.body.password,10);
