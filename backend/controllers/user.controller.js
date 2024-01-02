@@ -5,8 +5,7 @@ const bcryptjs=require("bcryptjs");
 
 exports.updateUser=async(req,res,next)=>{
     try{
-        console.log("user",req.user)
-        console.log("paramater",req.params.id)
+
     if(req.user.id!==req.params.id)
     return next(errorHanlder(401,"you can only update your own account"));
 
@@ -28,4 +27,17 @@ exports.updateUser=async(req,res,next)=>{
     catch(error){
         next(error);
     }
+}
+exports.deleteUser=async(req,res,next)=>{
+    if(req.user.id!==req.params.id)
+    return next(errorHandler(401,"you can only delete your own account"))
+    try{
+        await User.findByIdAndDelete(req.params.id);
+        res.clearCookie('access_token');
+        res.status(200).json("user bee deleted")
+    }catch(error)
+    {
+        next(error);
+    }
+
 }
