@@ -14,8 +14,9 @@ export default function Profile() {
   const [fileError,setfileError]=useState(false);
   const [FormData,setFormData]=useState({});
   const dispatch=useDispatch();
-
+  const [showListingError,setShowListingError]=useState(false);
   const {currentUser}=useSelector((state)=>state.user);
+  const [userListing,setuserListing]=useState([]);
   const   handleFileUpload=()=>{
     const storage=getStorage(app);
     const d=new Date().getTime()
@@ -110,7 +111,25 @@ catch(error)
       handleFileUpload();
     }
   },[file])
+const handleShowlisting=async()=>{
+  try{
+    setShowListingError(false);
+   const res=await fetch(`/api/user/listings/${currentUser._id}`);
+   const data=await res.json();
+   console.log(data);
+   if(data.status==="failed")
+   {
+    setShowListingError(true);
+    return;
+   }
+  setuserListing(data)
 
+  }
+  catch(err){
+   setShowListingError(err);
+  }
+}
+console.log(userListing)
   return (
     <div className='p-3 max-w-lg mx-auto'>
   <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -130,6 +149,26 @@ catch(error)
   <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete Account</span>
   <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>Sign Out</span>
 </div>
+<button onClick={handleShowlisting} className='text-green-700 w-full'>Show listing</button>
+<p className='text-red-700 mt-5'>{showListingError?'Error showing listing':''}</p>
+<div className='flex flex-col gap-4'>
+<h1 className='text-center my-7 text-2xl font'>
+  Your Listing
+</h1>
+{userListing?.map((listing)=>{
+  return (<div key={listing._id} className='border rounded-lg p-3 flex justify-between items-center gap-4'>
+     <Link to={`/listing/${listing._id}`}><img src={listing.image} alt={listing.name} className='h-16 w-16 object-contain rounded-lg' /></Link>
+     <Link to={`/listing/${listing._id}`} className='flex-1'><p className='text-slate-700 font-semibold flex-1 hover:underline truncate'>{listing.title}</p></Link>
+      <div className='flex flex-col items-center'>
+      <button className='text-red-700 uppercase'>Delete</button>
+      <button className='text-green-700 uppercase'>Edit</button>
+      </div>
+  </div>
+  )
+
+})}
+    </div>
     </div>
   )
 }
+
