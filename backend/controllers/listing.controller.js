@@ -33,3 +33,39 @@ exports.deletelist=async(req,res,next)=>{
     }
   
 }
+exports.updatelist=async(req,res,next)=>{
+    const listing=await Listing.findById(req.params.id);
+    if(!listing)
+    {
+        return next(errorHanlder(404,"Listing not found"));
+    }
+    if(req.user.id!==listing.userRef){
+        return next(errorHanlder(401,"you can only delete your own listing"));
+    }
+    try{
+    const updatelisting=await Listing.findByIdAndUpdate(req.params.id,req.body,{new:true});
+    res.status(200).json(updatelisting);
+    }
+    catch(err){
+        next(err)
+    }
+
+
+
+}
+exports.getlist=async(req,res,next)=>{
+    try{
+    const id=req.params.id;
+    const list=await Listing.findById(id);
+    if(!list)
+    {
+return next(errorHanlder(404,"Listing not found"));
+
+    }
+    res.status(200).json(list);
+}
+catch(err)
+{
+    next(err);
+}
+}
