@@ -175,7 +175,7 @@ const handleListingDelete=async(id)=>{
 </div>
 <button onClick={handleShowlisting} className='text-green-700 w-full'>Show listing</button>
 <p className='text-red-700 mt-5'>{showListingError?'Error showing listing':''}</p>
-<div className='flex flex-col gap-4'>
+{userListing.length>0&&<div className='flex flex-col gap-4'>
 <h1 className='text-center my-7 text-2xl font'>
   Your Listing
 </h1>
@@ -193,7 +193,7 @@ const handleListingDelete=async(id)=>{
   )
 
 })}
-    </div>
+    </div>}
     </div>
   )
 }
