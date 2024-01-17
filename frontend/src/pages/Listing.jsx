@@ -4,14 +4,17 @@ import {Swiper,SwiperSlide} from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from 'swiper/modules';
 import "swiper/css/bundle";
-import { listAll } from 'firebase/storage';
 import { FaBath, FaBed, FaMapMarkedAlt,FaParking,FaChair} from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import Contact from '../components/Contact';
 export default function Listing() {
     SwiperCore.use(Navigation);
     const [list,setlist]=useState(null);
     const [error,setError]=useState(false);
     const [loading,setloading]=useState(true);
     const params=useParams();
+    const {currentUser}=useSelector(state=>state.user);
+    const [contact,setcontact]=useState(false);
     useEffect(()=>{
       
        
@@ -58,9 +61,9 @@ export default function Listing() {
            </div>
            <p className='flex items-center mt-6 gap-2 text-slate-600 my-2 text-sm'><FaMapMarkedAlt className='text-green-700' />{list.address}</p>
            <div className='flex gap-5'>
-           <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+           <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-2 rounded-md'>
             {list.type === 'rent'? "For Rent":"For Sale"} </p>
-           {list.offer && <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>${+list.regularPrice - +list.discountPrice}</p>}
+           {list.offer && <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-2S rounded-md'>${+list.regularPrice - +list.discountPrice}</p>}
            </div>
             <p className='text-slate-800'><span className='font-semibold text-black'> Description -</span>
            {list.description}</p>
@@ -80,6 +83,8 @@ export default function Listing() {
             </li>
 
            </ul>
+           {currentUser && list.userRef !== currentUser._id && (<button onClick={()=>setcontact(true)} className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'>Contact landlord</button>)}
+          {contact&&<Contact list={list} />}
                 </div>
         }
     </main>

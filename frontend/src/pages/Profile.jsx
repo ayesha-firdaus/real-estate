@@ -122,6 +122,8 @@ const handleShowlisting=async()=>{
     setShowListingError(true);
     return;
    }
+   
+
   setuserListing(data)
 
   }
@@ -179,7 +181,7 @@ const handleListingDelete=async(id)=>{
 <h1 className='text-center my-7 text-2xl font'>
   Your Listing
 </h1>
-{userListing?.map((listing)=>{
+{userListing.map((listing)=>{
   return (<div key={listing._id} className='border rounded-lg p-3 flex justify-between items-center gap-4'>
      <Link to={`/listing/${listing._id}`}><img src={listing.image} alt={listing.name} className='h-16 w-16 object-contain rounded-lg' /></Link>
      <Link to={`/listing/${listing._id}`} className='flex-1'><p className='text-slate-700 font-semibold flex-1 hover:underline truncate'>{listing.title}</p></Link>
